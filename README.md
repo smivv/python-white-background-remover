@@ -8,7 +8,7 @@ What you need to do
 
 ```
 git clone https://github.com/smivv/python-white-background-remover
-cd python-white-background-remover-master
+cd python-white-background-remover-master/src
 ```
 
 ### Usage Example
