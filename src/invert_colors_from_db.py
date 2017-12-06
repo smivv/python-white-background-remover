@@ -14,7 +14,7 @@ def serve(config):
 
     threshold = int(config.threshold)
 
-    conn = sqlite3.connect('../assets/caresymbols.db')
+    conn = sqlite3.connect('../db/caresymbols.db')
     cursor = conn.cursor()
     rows = cursor.execute('select _id, symbol from caresymbols')
     rows = cursor.fetchall()
@@ -32,18 +32,17 @@ def serve(config):
         data = []
 
         for item in datas:
-            if item[0] > threshold and item[1] > threshold and item[2] > threshold:
-                data.append((255, 255, 255, 0))
-            else:
-                data.append(item)
+            data.append((255-item[0], 255-item[1], 255-item[2], item[3]))
 
         img.putdata(data)
         stream = io.BytesIO()
         img.save(stream, format="PNG")
 
         cursor.execute('UPDATE caresymbols SET symbol = ? WHERE _id = ?', (sqlite3.Binary(stream.getvalue()), row[0]))
-        
-        logging.info('%s image processed..' % row[0])
+
+        logging.info('%s image removed..' % row[0])
+    cursor.close()
+    conn.commit()
 
 
 def parse_args():
@@ -56,8 +55,8 @@ def parse_args():
     logging.info('Path argument passed..')
 
     parser.add_argument(
-        '--new_path', default='processed/',
-        help='Path where processed images will be placed.')
+        '--new_path', default='removed/',
+        help='Path where removed images will be placed.')
 
     logging.info('New path argument passed..')
 

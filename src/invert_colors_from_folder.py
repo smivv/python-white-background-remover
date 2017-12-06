@@ -33,29 +33,26 @@ def serve(config):
         data = []
 
         for item in datas:
-            if item[0] > threshold and item[1] > threshold and item[2] > threshold:
-                data.append((255, 255, 255, 0))
-            else:
-                data.append(item)
+            data.append((255-item[0], 255-item[1], 255-item[2], item[3]))
 
         img.putdata(data)
         img.save(new_path + filename, ext)
 
-        logging.info('%s image processed..' % filename)
+        logging.info('%s image removed..' % filename)
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '--path', default='/',
+        '--path', default='../caresymbols/',
         help='Path where images are placed.')
 
     logging.info('Path argument passed..')
 
     parser.add_argument(
-        '--new_path', default='processed/',
-        help='Path where processed images will be placed.')
+        '--new_path', default='../removed/',
+        help='Path where removed images will be placed.')
 
     logging.info('New path argument passed..')
 
@@ -66,8 +63,8 @@ def parse_args():
     logging.info('Valid formats argument passed..')
 
     parser.add_argument(
-        '--threshold', required=False, default='225',
-        help='Threshold. Default 225.')
+        '--threshold', required=False, default='175',
+        help='Threshold. Default 175.')
 
     logging.info('Threshold argument passed..')
 
