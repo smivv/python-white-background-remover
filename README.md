@@ -6,6 +6,7 @@ This is simple script that removes white background from all image files in your
 
 What you need to do
 
+
 ```
 git clone https://github.com/smivv/python-white-background-remover
 cd python-white-background-remover-master/src
